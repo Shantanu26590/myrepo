@@ -41,9 +41,6 @@ resource "aws_route_table_association" "Public_rta" {
   subnet_id      = aws_subnet.Pubsubnet.id
   route_table_id = aws_route_table.MRT.id
 }
-resource "aws_eip" "nat_eip" {
-  domain = "vpc"
-}
 resource "aws_nat_gateway" "NAT" {
   subnet_id     = aws_subnet.Pubsubnet.id
   allocation_id = aws_eip.nat_eip.id
