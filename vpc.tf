@@ -13,7 +13,7 @@ resource "aws_internet_gateway" "my_IGW" {
 resource "aws_subnet" "Pubsubnet" {
   cidr_block        = "10.10.0.0/24"
   vpc_id            = aws_vpc.myvpc.id
-  availability_zone = "us-east-1a"
+  availability_zone = "ap-south-1a"
   tags = {
     Name = "Pubsubnet"
   }
