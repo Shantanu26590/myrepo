@@ -18,15 +18,6 @@ resource "aws_subnet" "Pubsubnet" {
     Name = "Pubsubnet"
   }
 }
-resource "aws_subnet" "Privsubnet" {
-  cidr_block        = "10.10.1.0/24"
-  vpc_id            = aws_vpc.myvpc.id
-  availability_zone = "us-east-1a"
-  tags = {
-    Name = "Privsubnet"
-  }
-
-}
 resource "aws_route_table" "MRT" {
   vpc_id = aws_vpc.myvpc.id
   route {
@@ -40,25 +31,4 @@ resource "aws_route_table" "MRT" {
 resource "aws_route_table_association" "Public_rta" {
   subnet_id      = aws_subnet.Pubsubnet.id
   route_table_id = aws_route_table.MRT.id
-}
-resource "aws_nat_gateway" "NAT" {
-  subnet_id     = aws_subnet.Pubsubnet.id
-  allocation_id = aws_eip.nat_eip.id
-  tags = {
-    Name = "NATGW"
-  }
-}
-resource "aws_route_table" "CRT" {
-  vpc_id = aws_vpc.myvpc.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.NAT.id
-  }
-  tags = {
-    Name = "CRT"
-  }
-}
-resource "aws_route_table_association" "Private_rta" {
-  subnet_id      = aws_subnet.Privsubnet.id
-  route_table_id = aws_route_table.CRT.id
 }
